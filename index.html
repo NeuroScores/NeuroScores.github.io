@@ -1,0 +1,1152 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bộ Công cụ Lượng giá Thần kinh (9 mục)</title>
+    <meta name="description" content="Bộ công cụ tính điểm lâm sàng chuyên khoa Ngoại Thần kinh, bao gồm GCS, NIHSS, ICH Score, DN4, và các thang điểm cột sống/AVM.">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Arial, sans-serif; padding: 20px; background-color: #f4f7f6; }
+        .container { max-width: 900px; margin: 0 auto; background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); }
+        h2 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; margin-top: 5px; }
+        
+        /* Cấu trúc Menu/Tabs */
+        .tab-content { display: none; padding-top: 15px; }
+        .tab-content.active { display: block; }
+        
+        /* Mục lục (Dashboard) */
+        .dashboard-list { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 30px; }
+        .dashboard-list li { width: 48%; /* 2 cột */ background-color: #ecf0f1; border-radius: 5px; overflow: hidden; }
+        .dashboard-list a {
+            display: block;
+            padding: 12px 15px;
+            text-decoration: none;
+            color: #2c3e50;
+            font-weight: bold;
+            transition: background-color 0.2s;
+        }
+        .dashboard-list a:hover {
+            background-color: #dbe4e9;
+        }
+
+        /* Các kiểu dáng khác */
+        .question-group { margin-bottom: 15px; padding: 10px; border: 1px solid #ecf0f1; border-radius: 4px; }
+        .question label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input[type="radio"] { margin-right: 5px; }
+        select { padding: 8px; border-radius: 4px; border: 1px solid #ccc; width: 100%; box-sizing: border-box; }
+        .result { margin-top: 20px; padding: 15px; border: 2px solid #e74c3c; border-radius: 6px; text-align: center; font-size: 1.1em; font-weight: bold; background-color: #ecf0f1; }
+        .result.positive { border-color: #27ae60; color: #27ae60; }
+        .result.mrs-5 { border-color: #f1c40f; color: #f1c40f; }
+        .result.mrs-6 { border-color: #e74c3c; color: #e74c3c; }
+        
+        /* Style cho gợi ý lâm sàng */
+        .clinical-suggestion {
+            margin-top: 15px;
+            padding: 10px;
+            border-left: 5px solid #3498db;
+            background-color: #eaf6ff;
+            font-size: 0.9em;
+            text-align: left;
+            font-weight: normal;
+            color: #2c3e50;
+        }
+        .calculate-button { padding: 10px 20px; background-color: #3498db; color: white; border: none; border-radius: 5px; cursor: pointer; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Bộ Công cụ: Các thang điểm lượng giá trong thực hành lâm sàng Ngoại thần kinh (9 mục)</h2>
+    
+    <h3>Chọn Thang điểm để Tính toán:</h3>
+    <ul class="dashboard-list">
+        <li><a href="#gcs">1. Glasgow Coma Scale (GCS)</a></li>
+        <li><a href="#nihss">2. NIHSS</a></li>
+        <li><a href="#ich">3. Thang điểm ICH (Xuất huyết não)</a></li>
+        <li><a href="#spetzler">4. Spetzler-Martin (AVM)</a></li>
+        <li><a href="#dn4">5. Thang điểm DN4 (Đau thần kinh)</a></li>
+        <li><a href="#mjoa">6. Thang điểm mJOA (Chèn ép tủy cổ)</a></li>
+        <li><a href="#slic">7. Thang điểm SLICS (Chấn thương cột sống cổ)</a></li>
+        <li><a href="#tlics">8. Thang điểm TLICS (Chấn thương cột sống ngực-thắt lưng)</a></li>
+        <li><a href="#sins">9. SINS (Mất vững cột sống do ung thư)</a></li>
+    </ul>
+    
+    <hr>
+    
+    <div id="scales-content">
+        
+        <div id="gcs" class="tab-content active">
+            <h3>1. Thang điểm Glasgow Coma Scale (GCS)</h3>
+            <p>Tổng điểm GCS = E + V + M. (Điểm tối đa: 15, tối thiểu: 3)</p>
+            <form id="gcs-form">
+                <div class="question-group">
+                    <label>1. Phản ứng bằng mắt (Eye Opening - E):</label>
+                    <div class="question">
+                        <input type="radio" name="gcs_e" value="4" required> 4 điểm: Mở mắt tự nhiên
+                        <br><input type="radio" name="gcs_e" value="3"> 3 điểm: Mở mắt khi nghe gọi
+                        <br><input type="radio" name="gcs_e" value="2"> 2 điểm: Mở mắt khi có kích thích đau
+                        <br><input type="radio" name="gcs_e" value="1"> 1 điểm: Không mở mắt
+                    </div>
+                </div>
+                <div class="question-group">
+                    <label>2. Phản ứng bằng lời nói (Verbal Response - V):</label>
+                    <div class="question">
+                        <input type="radio" name="gcs_v" value="5" required> 5 điểm: Định hướng tốt (nhớ rõ tên, địa điểm, ngày giờ)
+                        <br><input type="radio" name="gcs_v" value="4"> 4 điểm: Lú lẫn, không định hướng được nhưng giao tiếp rõ ràng
+                        <br><input type="radio" name="gcs_v" value="3"> 3 điểm: Nói từ đơn dễ hiểu
+                        <br><input type="radio" name="gcs_v" value="2"> 2 điểm: Nói tiếng vô nghĩa
+                        <br><input type="radio" name="gcs_v" value="1"> 1 điểm: Im lặng (Đã đặt nội khí quản: V(T))
+                    </div>
+                </div>
+                <div class="question-group">
+                    <label>3. Phản ứng bằng vận động (Motor Response - M):</label>
+                    <div class="question">
+                        <input type="radio" name="gcs_m" value="6" required> 6 điểm: Thực hiện được theo lệnh
+                        <br><input type="radio" name="gcs_m" value="5"> 5 điểm: Đáp ứng chính xác khi bị gây đau (Định vị)
+                        <br><input type="radio" name="gcs_m" value="4"> 4 điểm: Đáp ứng không chính xác khi bị gây đau (Rút chi)
+                        <br><input type="radio" name="gcs_m" value="3"> 3 điểm: Gấp cứng (Mất vỏ)
+                        <br><input type="radio" name="gcs_m" value="2"> 2 điểm: Duỗi cứng (Mất não)
+                        <br><input type="radio" name="gcs_m" value="1"> 1 điểm: Không đáp ứng
+                    </div>
+                </div>
+                <button type="submit" class="calculate-button">Tính điểm GCS</button>
+            </form>
+            <div id="gcs-result" class="result" style="display: none;"></div>
+        </div>
+
+        <div id="nihss" class="tab-content">
+            <h3>2. NIHSS (National Institutes of Health Stroke Scale)</h3>
+            <form id="nihss-form">
+                <div class="question-group">
+                    <label>1a. Mức độ Ý thức (LOC):</label>
+                    <select name="nihss_1a" required>
+                        <option value="">-- Chọn --</option>
+                        <option value="0">0: Tỉnh, đáp ứng nhanh</option>
+                        <option value="1">1: Ngủ gà, đánh thức dễ</option>
+                        <option value="2">2: Hơi mê sảng, kích thích mạnh</option>
+                        <option value="3">3: Mê, không đáp ứng hoặc chỉ đáp ứng vận động phản xạ</option>
+                    </select>
+                </div>
+                <div class="question-group">
+                    <label>1b. Hỏi tháng và tuổi (LOC - Hỏi):</label>
+                    <select name="nihss_1b" required>
+                        <option value="">-- Chọn --</option>
+                        <option value="0">0: Đúng cả hai</option>
+                        <option value="1">1: Đúng một câu</option>
+                        <option value="2">2: Không đúng cả hai</option>
+                    </select>
+                </div>
+                <div class="question-group">
+                    <label>1c. Thực hiện hai lệnh (LOC - Lệnh):</label>
+                    <select name="nihss_1c" required>
+                        <option value="">-- Chọn --</option>
+                        <option value="0">0: Làm đúng cả hai</option>
+                        <option value="1">1: Chỉ làm đúng một</option>
+                        <option value="2">2: Không làm đúng cả hai mệnh lệnh</option>
+                    </select>
+                </div>
+                <div class="question-group">
+                    <label>2. Vận nhãn ngang:</label>
+                    <select name="nihss_2" required>
+                        <option value="">-- Chọn --</option>
+                        <option value="0">0: Bình thường</option>
+                        <option value="1">1: Liệt vận nhãn 1 phần, hoặc 2 mắt, lệch mắt vượt qua được</option>
+                        <option value="2">2: Lệch mắt/liệt vận nhãn hoàn toàn, mắt búp bê không khắc phục</option>
+                    </select>
+                </div>
+                <div class="question-group">
+                    <label>3. Thị trường:</label>
+                    <select name="nihss_3" required>
+                        <option value="">-- Chọn --</option>
+                        <option value="0">0: Không mất thị trường</option>
+                        <option value="1">1: Bán manh 1 phần, góc manh hoặc triệt tiêu</option>
+                        <option value="2">2: Bán manh hoàn toàn</option>
+                        <option value="3">3: Bán manh 2 bên (mù/mù vỏ)</option>
+                    </select>
+                </div>
+                <div class="question-group">
+                    <label>4. Liệt mặt:</label>
+                    <select name="nihss_4" required>
+                        <option value="">-- Chọn --</option>
+                        <option value="0">0: Không liệt</option>
+                        <option value="1">1: Yếu nhẹ (mở nếp mũi má, mắt đối xứng khi cười)</option>
+                        <option value="2">2: Liệt một phần (liệt phân dưới, mất khả năng đến hoàn toàn)</option>
+                        <option value="3">3: Liệt hoàn toàn nửa mặt/hoặc 1 hoặc 2 bên hoặc Hôn mê</option>
+                    </select>
+                </div>
+                <div class="question-group">
+                    <label>5. Vận động tay (trọng lực - Giữ 90°/45°):</label>
+                    <p>5a. Tay Trái / 5b. Tay Phải</p>
+                    <select name="nihss_5a" required>
+                        <option value="">5a. Tay Trái -- Chọn --</option>
+                        <option value="0">0: Giữ 90° hơn 10 giây/45° hơn 5 giây</option>
+                        <option value="1">1: Trôi/rơi trước khi hết 10 giây, không chạm giường</option>
+                        <option value="2">2: Cố gắng nhưng không thắng nổi trọng lực/rơi chạm giường trước 5 giây</option>
+                        <option value="3">3: Có vận động nhưng không thắng sức, rơi ngay xuống giường</option>
+                        <option value="4">4: Không cử động</option>
+                        <option value="U">UN: Cụt chi, cứng khớp, ghi rõ:</option>
+                    </select>
+                    <br>
+                    <select name="nihss_5b" required>
+                        <option value="">5b. Tay Phải -- Chọn --</option>
+                        <option value="0">0: Giữ 90° hơn 10 giây/45° hơn 5 giây</option>
+                        <option value="1">1: Trôi/rơi trước khi hết 10 giây, không chạm giường</option>
+                        <option value="2">2: Cố gắng nhưng không thắng nổi trọng lực/rơi chạm giường trước 5 giây</option>
+                        <option value="3">3: Có vận động nhưng không thắng sức, rơi ngay xuống giường</option>
+                        <option value="4">4: Không cử động</option>
+                        <option value="U">UN: Cụt chi, cứng khớp, ghi rõ:</option>
+                    </select>
+                </div>
+                <div class="question-group">
+                    <label>6. Vận động chân (trọng lực - Giữ 30°):</label>
+                    <p>6a. Chân Trái / 6b. Chân Phải</p>
+                    <select name="nihss_6a" required>
+                        <option value="">6a. Chân Trái -- Chọn --</option>
+                        <option value="0">0: Giữ 30° hơn 5 giây</option>
+                        <option value="1">1: Trôi/rơi trước khi hết 5 giây, không chạm giường</option>
+                        <option value="2">2: Cố gắng nhưng không thắng nổi trọng lực/rơi chạm giường trước 5 giây</option>
+                        <option value="3">3: Có vận động nhưng không thắng sức, rơi ngay xuống giường</option>
+                        <option value="4">4: Không cử động</option>
+                        <option value="U">UN: Cụt chi, cứng khớp, ghi rõ:</option>
+                    </select>
+                    <br>
+                    <select name="nihss_6b" required>
+                        <option value="">6b. Chân Phải -- Chọn --</option>
+                        <option value="0">0: Giữ 30° hơn 5 giây</option>
+                        <option value="1">1: Trôi/rơi trước khi hết 10 giây, không chạm giường</option>
+                        <option value="2">2: Cố gắng nhưng không thắng nổi trọng lực/rơi chạm giường trước 5 giây</option>
+                        <option value="3">3: Có vận động nhưng không thắng sức, rơi ngay xuống giường</option>
+                        <option value="4">4: Không cử động</option>
+                        <option value="U">UN: Cụt chi, cứng khớp, ghi rõ:</option>
+                    </select>
+                </div>
+                <div class="question-group">
+                    <label>7. Thất điều (Ataxia):</label>
+                    <select name="nihss_7" required>
+                        <option value="">-- Chọn --</option>
+                        <option value="0">0: Không có thất điều hoặc BN liệt/không hiểu/hôn mê</option>
+                        <option value="1">1: Có ở một chi</option>
+                        <option value="2">2: Có ở hai chi</option>
+                    </select>
+                </div>
+                <div class="question-group">
+                    <label>8. Cảm giác (Sensory):</label>
+                    <select name="nihss_8" required>
+                        <option value="">-- Chọn --</option>
+                        <option value="0">0: Bình thường</option>
+                        <option value="1">1: Mất cảm giác nhẹ - trung bình, giảm/mất cg đau, còn cg sờ chạm</option>
+                        <option value="2">2: Mất cảm giác nặng, toàn bộ hoặc BN hôn mê</option>
+                    </select>
+                </div>
+                <div class="question-group">
+                    <label>9. Ngôn ngữ (Best Language):</label>
+                    <select name="nihss_9" required>
+                        <option value="">-- Chọn --</option>
+                        <option value="0">0: Bình thường</option>
+                        <option value="1">1: Mất ngôn ngữ nhẹ - trung bình, giao tiếp được dù hơi khó</option>
+                        <option value="2">2: Mất ngôn ngữ nặng, giao tiếp rất hạn chế</option>
+                        <option value="3">3: Câm lặng, mất ngôn ngữ toàn bộ, không nói/không hiểu lời, mê</option>
+                    </select>
+                </div>
+                <div class="question-group">
+                    <label>10. Rối loạn vận ngôn (Dysarthria):</label>
+                    <select name="nihss_10" required>
+                        <option value="">-- Chọn --</option>
+                        <option value="0">0: Bình thường</option>
+                        <option value="1">1: Nhẹ - trung bình, giao tiếp được dù hơi khó</option>
+                        <option value="2">2: Nặng, giao tiếp rất hạn chế</option>
+                        <option value="U">UN: Không khảo sát được (VD: đặt nội khí quản), ghi rõ:</option>
+                    </select>
+                </div>
+                <div class="question-group">
+                    <label>11. Sự triệt tiêu (Extinction/Inattention):</label>
+                    <select name="nihss_11" required>
+                        <option value="">-- Chọn --</option>
+                        <option value="0">0: Không bất thường</option>
+                        <option value="1">1: Mất chú ý/thị giác, xúc giác, thính giác, không gian hoặc bản thân ở một thì thể</option>
+                        <option value="2">2: Mất chú ý/thị giác, xúc giác, thính giác, không gian hoặc bản thân ở cả hai thì thể</option>
+                    </select>
+                </div>
+                <p style="font-style: italic;">(Tổng điểm NIHSS tối đa 42 điểm)</p>
+                <button type="submit" class="calculate-button">Tính điểm NIHSS</button>
+            </form>
+            <div id="nihss-result" class="result" style="display: none;"></div>
+        </div>
+        
+        <div id="ich" class="tab-content">
+            <h3>3. Thang điểm ICH (Intracerebral Hemorrhage Score)</h3>
+            <p>Dùng để tiên lượng tỷ lệ tử vong 30 ngày cho Xuất huyết não.</p>
+            <form id="ich-form">
+                <div class="question-group">
+                    <label>1. Điểm GCS (Glasgow Coma Scale) :</label>
+                    <div class="question">
+                        <input type="radio" name="ich_gcs" value="0" required> GCS 13–15 (0 điểm)
+                        <br><input type="radio" name="ich_gcs" value="1"> GCS 5–12 (1 điểm)
+                        <br><input type="radio" name="ich_gcs" value="2"> GCS 3–4 (2 điểm)
+                    </div>
+                </div>
+                 <div class="question-group">
+                    <label>2. Thể tích Khối máu tụ (dựa trên CT Scan):</label>
+                    <div class="question">
+                        <input type="radio" name="ich_vol" value="0" required> Thể tích < 30 ml (0 điểm)
+                        <br><input type="radio" name="ich_vol" value="1"> Thể tích &ge; 30 ml (1 điểm)
+                    </div>
+                </div>
+                <div class="question-group">
+                    <label>3. Xuất huyết Dưới lều (Infratentorial):</label>
+                    <div class="question">
+                        <input type="radio" name="ich_infravol" value="0" required> Không có (Trên lều) (0 điểm)
+                        <br><input type="radio" name="ich_infravol" value="1"> Có (Thân não/tiểu não) (1 điểm)
+                    </div>
+                </div>
+                <div class="question-group">
+                    <label>4. Tuổi của bệnh nhân:</label>
+                    <div class="question">
+                        <input type="radio" name="ich_age" value="0" required> Tuổi < 80 (0 điểm)
+                        <br><input type="radio" name="ich_age" value="1"> Tuổi &ge; 80 (1 điểm)
+                    </div>
+                </div>
+                 <div class="question-group">
+                    <label>5. Có Xuất huyết trong não thất (IVH):</label>
+                    <div class="question">
+                        <input type="radio" name="ich_ivh" value="0" required> Không có IVH (0 điểm)
+                        <br><input type="radio" name="ich_ivh" value="1"> Có IVH (1 điểm)
+                    </div>
+                </div>
+                <p style="font-style: italic;">(Tổng điểm ICH Score tối đa 6 điểm)</p>
+                <button type="submit" class="calculate-button">Tính điểm ICH Score</button>
+            </form>
+            <div id="ich-result" class="result" style="display: none;"></div>
+        </div>
+
+        <div id="spetzler" class="tab-content">
+            <h3>4. Spetzler-Martin Grade (Dị dạng Động Tĩnh mạch não - AVM)</h3>
+            <form id="spetzler-form">
+                <div class="question-group">
+                    <label>1. Kích thước (Size - Điểm 1-3):</label>
+                    <div class="question">
+                        <input type="radio" name="spetzler_size" value="1" required> Nhỏ (< 3cm) (1 điểm)
+                        <br><input type="radio" name="spetzler_size" value="2"> Trung bình (3-6cm) (2 điểm)
+                        <br><input type="radio" name="spetzler_size" value="3"> Lớn (> 6cm) (3 điểm)
+                    </div>
+                </div>
+                <div class="question-group">
+                    <label>2. Vùng chức năng (Eloquence - Điểm 0-1):</label>
+                    <div class="question">
+                        <input type="radio" name="spetzler_eloquence" value="0" required> Không ở vùng chức năng (0 điểm)
+                        <br><input type="radio" name="spetzler_eloquence" value="1"> Ở vùng chức năng (1 điểm)
+                    </div>
+                </div>
+                 <div class="question-group">
+                    <label>3. Dẫn lưu tĩnh mạch (Venous Drainage - Điểm 0-1):</label>
+                    <div class="question">
+                        <input type="radio" name="spetzler_drainage" value="0" required> Chỉ có dẫn lưu nông (0 điểm)
+                        <br><input type="radio" name="spetzler_drainage" value="1"> Có dẫn lưu sâu (1 điểm)
+                    </div>
+                </div>
+                <p style="font-style: italic;">(Tổng điểm tối đa 5)</p>
+                <button type="submit" class="calculate-button">Tính điểm Spetzler-Martin</button>
+            </form>
+            <div id="spetzler-result" class="result" style="display: none;"></div>
+        </div>
+        
+        <div id="dn4" class="tab-content">
+            <h3>5. Thang điểm DN4 (Douleur Neuropathique en 4 questions - Đau thần kinh)</h3>
+            <p>Điểm &ge; 4/10 gợi ý có thành phần đau thần kinh.</p>
+            <form id="dn4-form">
+                <div class="question-group">
+                    <p><strong>Phần 1: Mô tả cơn đau (Tự đánh giá)</strong></p>
+                    <div class="question"><label>1. Bỏng rát?</label><input type="radio" name="dn4_q1" value="1" required> Có <input type="radio" name="dn4_q1" value="0"> Không</div>
+                    <div class="question"><label>2. Buốt cóng?</label><input type="radio" name="dn4_q2" value="1"> Có <input type="radio" name="dn4_q2" value="0"> Không</div>
+                    <div class="question"><label>3. Như điện giật?</label><input type="radio" name="dn4_q3" value="1"> Có <input type="radio" name="dn4_q3" value="0"> Không</div>
+                    <div class="question"><label>4. Kim châm?</label><input type="radio" name="dn4_q4" value="1"> Có <input type="radio" name="dn4_q4" value="0"> Không</div>
+                    <div class="question"><label>5. Kiến bò?</label><input type="radio" name="dn4_q5" value="1"> Có <input type="radio" name="dn4_q5" value="0"> Không</div>
+                    <div class="question"><label>6. Tê bì?</label><input type="radio" name="dn4_q6" value="1"> Có <input type="radio" name="dn4_q6" value="0"> Không</div>
+                    <div class="question"><label>7. Ngứa?</label><input type="radio" name="dn4_q7" value="1"> Có <input type="radio" name="dn4_q7" value="0"> Không</div>
+                </div>
+                <div class="question-group">
+                    <p><strong>Phần 2: Dấu hiệu thăm khám (Cần người khám)</strong></p>
+                    <div class="question"><label>8. Giảm cảm giác khi chạm?</label><input type="radio" name="dn4_q8" value="1" required> Có <input type="radio" name="dn4_q8" value="0"> Không</div>
+                    <div class="question"><label>9. Giảm cảm giác khi châm kim?</label><input type="radio" name="dn4_q9" value="1"> Có <input type="radio" name="dn4_q9" value="0"> Không</div>
+                    <div class="question"><label>10. Loạn cảm đau?</label><input type="radio" name="dn4_q10" value="1"> Có <input type="radio" name="dn4_q10" value="0"> Không</div>
+                </div>
+                <button type="submit" class="calculate-button">Tính điểm DN4</button>
+            </form>
+            <div id="dn4-result" class="result" style="display: none;"></div>
+        </div>
+
+        <div id="mjoa" class="tab-content">
+            <h3>6. Thang điểm mJOA (Modified Japanese Orthopaedic Association score - Chèn ép tủy cổ)</h3>
+            <p>Đánh giá mức độ nặng nhẹ của hội chứng chèn ép tủy cổ (Tổng điểm tối đa 18).</p>
+            <form id="mjoa-form">
+                <div class="question-group">
+                    <label>1. Chức năng Vận động Tay (C6-C8) (Điểm 0-4):</label>
+                    <div class="question">
+                        <input type="radio" name="mjoa_arm_motor" value="4" required> Hoàn toàn bình thường (4 điểm)
+                        <br><input type="radio" name="mjoa_arm_motor" value="3"> Khó cầm nắm đồ nhưng vẫn dùng được (3 điểm)
+                        <br><input type="radio" name="mjoa_arm_motor" value="2"> Chỉ cầm được một số vật nhỏ (2 điểm)
+                        <br><input type="radio" name="mjoa_arm_motor" value="1"> Không cầm được, tay gần như vô dụng (1 điểm)
+                        <br><input type="radio" name="mjoa_arm_motor" value="0"> Mất hoàn toàn chức năng tay (0 điểm)
+                    </div>
+                </div>
+                <div class="question-group">
+                    <label>2. Chức năng Vận động Chân (Đi lại) (Điểm 0-4):</label>
+                    <div class="question">
+                        <input type="radio" name="mjoa_leg_motor" value="4" required> Hoàn toàn bình thường, đi lại không khó khăn (4 điểm)
+                        <br><input type="radio" name="mjoa_leg_motor" value="3"> Đi lại yếu nhưng tự đi được (3 điểm)
+                        <br><input type="radio" name="mjoa_leg_motor" value="2"> Đi lại cần hỗ trợ hoặc khó khăn rõ (2 điểm)
+                        <br><input type="radio" name="mjoa_leg_motor" value="1"> Chỉ đi được vài bước hoặc dùng gậy, nạng (1 điểm)
+                        <br><input type="radio" name="mjoa_leg_motor" value="0"> Không đi được, liệt hoàn toàn chân (0 điểm)
+                    </div>
+                </div>
+                <div class="question-group">
+                    <label>3. Cảm giác Chi Trên (Điểm 0-2):</label>
+                    <div class="question">
+                        <input type="radio" name="mjoa_arm_sensory" value="2" required> Bình thường (2 điểm)
+                        <br><input type="radio" name="mjoa_arm_sensory" value="1"> Tê bì nhẹ, cảm giác giảm (1 điểm)
+                        <br><input type="radio" name="mjoa_arm_sensory" value="0"> Mất cảm giác hoàn toàn (0 điểm)
+                    </div>
+                </div>
+                <div class="question-group">
+                    <label>4. Cảm giác Chi Dưới và Thân mình (Điểm 0-2):</label>
+                    <div class="question">
+                        <input type="radio" name="mjoa_trunk_sensory" value="2" required> Bình thường (2 điểm)
+                        <br><input type="radio" name="mjoa_trunk_sensory" value="1"> Giảm cảm giác nhẹ (1 điểm)
+                        <br><input type="radio" name="mjoa_trunk_sensory" value="0"> Mất cảm giác hoàn toàn (0 điểm)
+                    </div>
+                </div>
+                <div class="question-group">
+                    <label>5. Chức năng Bàng quang / Ruột (Điểm 0-3):</label>
+                    <div class="question">
+                        <input type="radio" name="mjoa_sphincter" value="3" required> Bình thường, kiểm soát tốt (3 điểm)
+                        <br><input type="radio" name="mjoa_sphincter" value="2"> Rối loạn nhẹ, không cần can thiệp (2 điểm)
+                        <br><input type="radio" name="mjoa_sphincter" value="1"> Rối loạn vừa phải, cần can thiệp (1 điểm)
+                        <br><input type="radio" name="mjoa_sphincter" value="0"> Mất kiểm soát hoàn toàn (0 điểm)
+                    </div>
+                </div>
+
+                <p style="font-style: italic;">(Tổng điểm mJOA tối đa 18 điểm)</p>
+                <button type="submit" class="calculate-button">Tính điểm mJOA</button>
+            </form>
+            <div id="mjoa-result" class="result" style="display: none;"></div>
+        </div>
+        
+        <div id="slic" class="tab-content">
+            <h3>7. Thang điểm SLICS (Subaxial Cervical Spine Injury Classification - Chấn thương cột sống cổ)</h3>
+            <p>Đánh giá chấn thương cột sống cổ dưới C3-C7 (Tổng điểm tối đa 9).</p>
+            <form id="slic-form">
+                <div class="question-group">
+                    <label>1. Hình thái Tổn thương Xương (Morphology):</label>
+                    <div class="question">
+                        <input type="radio" name="slic_morphology" value="1" required> Gãy lún/xẹp (Compression fracture) (1 điểm)
+                        <br><input type="radio" name="slic_morphology" value="2"> Gãy nổ (Burst fracture) (2 điểm)
+                        <br><input type="radio" name="slic_morphology" value="3"> Giãn/Giật tách (Distraction) (3 điểm)
+                        <br><input type="radio" name="slic_morphology" value="4"> Trượt/Xoay (Translation/Rotation) (4 điểm)
+                    </div>
+                </div>
+                <div class="question-group">
+                    <label>2. Tình trạng Phức hợp Dây chằng – Đĩa (DLC):</label>
+                    <div class="question">
+                        <input type="radio" name="slic_ligament" value="0" required> Nguyên vẹn (0 điểm)
+                        <br><input type="radio" name="slic_ligament" value="1"> Nghi ngờ tổn thương (1 điểm)
+                        <br><input type="radio" name="slic_ligament" value="2"> Xác định rách/đứt (2 điểm)
+                    </div>
+                </div>
+                 <div class="question-group">
+                    <label>3. Tình trạng Thần kinh (Neurologic Status):</label>
+                    <div class="question">
+                        <input type="radio" name="slic_neuro" value="0" required> Bình thường (0 điểm)
+                        <br><input type="radio" name="slic_neuro" value="1"> Tổn thương rễ thần kinh (Radiculopathy) (1 điểm)
+                        <br><input type="radio" name="slic_neuro" value="2_incomplete"> Tổn thương tủy không hoàn toàn (Incomplete SCI) (2 điểm)
+                        <br><input type="radio" name="slic_neuro" value="2_complete"> Tổn thương tủy hoàn toàn (Complete SCI) (2 điểm)
+                        <br><input type="radio" name="slic_neuro" value="3_cauda"> Hội chứng đuôi ngựa cổ (Cauda Equina Cervical) (3 điểm)
+                    </div>
+                </div>
+                <p style="font-style: italic;">(Tổng điểm SLICS tối đa 9 điểm)</p>
+                <button type="submit" class="calculate-button">Tính điểm SLICS</button>
+            </form>
+            <div id="slic-result" class="result" style="display: none;"></div>
+        </div>
+
+        <div id="tlics" class="tab-content">
+            <h3>8. Thang điểm TLICS (Thoracolumbar Injury Classification and Severity - Chấn thương cột sống ngực-thắt lưng)</h3>
+            <p>Dùng để đánh giá mức độ nặng của chấn thương cột sống ngực-thắt lưng và định hướng xử trí (bảo tồn/phẫu thuật).</p>
+            <form id="tlics-form">
+                <div class="question-group">
+                    <label>1. Hình thái Tổn thương Xương (Morphology):</label>
+                    <div class="question">
+                        <input type="radio" name="tlics_morphology" value="1" required> Gãy lún/xẹp (Compression fracture) (1 điểm)
+                        <br><input type="radio" name="tlics_morphology" value="2"> Gãy nổ (Burst fracture) (2 điểm)
+                        <br><input type="radio" name="tlics_morphology" value="3"> Trượt – Xoay (Translation/Rotation injury) (3 điểm)
+                        <br><input type="radio" name="tlics_morphology" value="4"> Tách giãn (Distraction injury) (4 điểm)
+                    </div>
+                </div>
+                <div class="question-group">
+                    <label>2. Tình trạng Thần kinh (Neurologic status):</label>
+                    <div class="question">
+                        <input type="radio" name="tlics_neuro" value="0" required> Không có tổn thương thần kinh (0 điểm)
+                        <br><input type="radio" name="tlics_neuro" value="2"> Tổn thương rễ thần kinh (Radiculopathy) (2 điểm)
+                        <br><input type="radio" name="tlics_neuro" value="3"> Tổn thương tủy không hoàn toàn (Incomplete SCI) (3 điểm)
+                        <br><input type="radio" name="tlics_neuro" value="2_complete"> Tổn thương tủy hoàn toàn (Complete SCI) (2 điểm)
+                        <br><input type="radio" name="tlics_neuro" value="3_cauda"> Hội chứng đuôi ngựa (Cauda Equina) (3 điểm)
+                    </div>
+                </div>
+                <div class="question-group">
+                    <label>3. Tổn thương Phức hợp Dây chằng Sau (PLC):</label>
+                    <div class="question">
+                        <input type="radio" name="tlics_ligament" value="0" required> Bình thường (0 điểm)
+                        <br><input type="radio" name="tlics_ligament" value="2"> Nghi ngờ tổn thương (2 điểm)
+                        <br><input type="radio" name="tlics_ligament" value="3"> Xác định rách/đứt (3 điểm)
+                    </div>
+                </div>
+                <p style="font-style: italic;">(Tổng điểm TLICS tối đa: 4 + 3 + 3 = 10 điểm)</p>
+                <button type="submit" class="calculate-button">Tính điểm TLICS</button>
+            </form>
+            <div id="tlics-result" class="result" style="display: none;"></div>
+        </div>
+        
+        <div id="sins" class="tab-content">
+            <h3>9. SINS (Spinal Instability Neoplastic Score - Mất vững cột sống do ung thư)</h3>
+            <p>Đánh giá mức độ mất vững cột sống do u (0-18 điểm) và định hướng xử trí (bảo tồn/hội chẩn/phẫu thuật).</p>
+            <form id="sins-form">
+                
+                <div class="question-group">
+                    <label>1. Vị trí Tổn thương (Location - Điểm 0-3):</label>
+                    <div class="question">
+                        <input type="radio" name="sins_q1" value="3" required> Vùng chịu tải RẤT CAO (C0–C2, C7–T2, T11–L1, L5–S1) (3 điểm)
+                        <br><input type="radio" name="sins_q1" value="2"> Vùng di động (C3–C6, L2–L4) (2 điểm)
+                        <br><input type="radio" name="sins_q1" value="1"> Vùng ít di động (T3–T10) (1 điểm)
+                        <br><input type="radio" name="sins_q1" value="0"> Vùng cố định (S2–S5) (0 điểm)
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <label>2. Đau Cơ học (Pain - Điểm 0-3):</label>
+                    <div class="question">
+                        <input type="radio" name="sins_q2" value="3" required> Đau cơ học ĐIỂN HÌNH (tăng khi vận động/uốn, giảm khi nghỉ) (3 điểm)
+                        <br><input type="radio" name="sins_q2" value="1"> Đau không điển hình nhưng nghi ngờ do mất vững (1 điểm)
+                        <br><input type="radio" name="sins_q2" value="0"> Không đau (0 điểm)
+                    </div>
+                </div>
+                
+                <div class="question-group">
+                    <label>3. Tổn thương Xương (Bone lesion quality - Điểm 0-2):</label>
+                    <div class="question">
+                        <input type="radio" name="sins_q3" value="2" required> Loại Ly giải (Lytic) (2 điểm)
+                        <br><input type="radio" name="sins_q3" value="1"> Loại Hỗn hợp (Mixed) (1 điểm)
+                        <br><input type="radio" name="sins_q3" value="0"> Loại Tạo xương (Blastic) (0 điểm)
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <label>4. Căn chỉnh Cột sống (Spinal alignment - Điểm 0-4):</label>
+                    <div class="question">
+                        <input type="radio" name="sins_q4" value="4" required> Trượt/biến dạng rõ rệt (subluxation/translation) (4 điểm)
+                        <br><input type="radio" name="sins_q4" value="2"> Gù/vẹo nhẹ do tổn thương (2 điểm)
+                        <br><input type="radio" name="sins_q4" value="0"> Căn chỉnh bình thường (0 điểm)
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <label>5. Xẹp Thân đốt sống (Vertebral body collapse - Điểm 0-3):</label>
+                    <div class="question">
+                        <input type="radio" name="sins_q5" value="3" required> Xẹp > 50% chiều cao thân đốt (3 điểm)
+                        <br><input type="radio" name="sins_q5" value="2"> Xẹp < 50% chiều cao thân đốt (2 điểm)
+                        <br><input type="radio" name="sins_q5" value="1"> Không xẹp nhưng có phá hủy xương rõ (1 điểm)
+                        <br><input type="radio" name="sins_q5" value="0"> Bình thường (0 điểm)
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <label>6. Tổn thương Thành sau (Posterolateral involvement - Điểm 0-3):</label>
+                    <div class="question">
+                        <input type="radio" name="sins_q6" value="3" required> Tổn thương hai bên (cung sau, cuống sống, diện khớp, bản sống) (3 điểm)
+                        <br><input type="radio" name="sins_q6" value="1"> Tổn thương một bên (1 điểm)
+                        <br><input type="radio" name="sins_q6" value="0"> Không liên quan (0 điểm)
+                    </div>
+                </div>
+
+                <p style="font-style: italic;">(Tổng điểm SINS tối đa 18 điểm)</p>
+                <button type="submit" class="calculate-button">Tính điểm SINS</button>
+            </form>
+            <div id="sins-result" class="result" style="display: none;"></div>
+        </div>
+        
+    </div>
+
+</div>
+
+<script>
+    // ------------------------------------------------------------------
+    // HÀM CHUYỂN ĐỔI TABS VÀ CUỘN (DASHBOARD)
+    // ------------------------------------------------------------------
+    document.querySelectorAll('.dashboard-list a').forEach(link => {
+        link.addEventListener('click', function(event) {
+            event.preventDefault();
+            const tabId = this.getAttribute('href').substring(1);
+            
+            // Ẩn tất cả nội dung và hiển thị nội dung được chọn
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            const targetTab = document.getElementById(tabId);
+            if (targetTab) {
+                targetTab.classList.add('active');
+                // Cuộn lên vị trí của thang điểm
+                targetTab.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    });
+
+    // ------------------------------------------------------------------
+    // HÀM TÍNH ĐIỂM GCS
+    // ------------------------------------------------------------------
+    document.getElementById('gcs-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        const E = document.querySelector('input[name="gcs_e"]:checked')?.value;
+        const V = document.querySelector('input[name="gcs_v"]:checked')?.value;
+        const M = document.querySelector('input[name="gcs_m"]:checked')?.value;
+
+        if (!E || !V || !M) {
+            alert("Vui lòng chọn đầy đủ 3 tiêu chí GCS (E, V, M).");
+            return;
+        }
+
+        const totalScore = parseInt(E) + parseInt(V) + parseInt(M);
+        const resultBox = document.getElementById('gcs-result');
+
+        let interpretation;
+        let className = 'result';
+
+        if (totalScore >= 13) {
+            interpretation = `GCS: ${totalScore}/15 (E${E}V${V}M${M}). <strong>Chấn thương sọ não (CTSN) nhẹ (13-15).</strong>`;
+            className += ' positive'; 
+        } else if (totalScore >= 9) {
+            interpretation = `GCS: ${totalScore}/15 (E${E}V${V}M${M}). <strong>CTSN TRUNG BÌNH (9-12).</strong>`;
+            className = 'result mrs-5';
+        } else if (totalScore >= 3) {
+            interpretation = `GCS: ${totalScore}/15 (E${E}V${V}M${M}). <strong>CTSN NẶNG (Hôn mê, 3-8).</strong> GCS &le; 8 thường cần can thiệp khẩn cấp.`;
+            className += ' mrs-6'; 
+        } else {
+             interpretation = `GCS: ${totalScore}/15. Lỗi tính toán hoặc điểm không hợp lệ.`;
+        }
+
+        resultBox.innerHTML = interpretation;
+        resultBox.className = className;
+        resultBox.style.display = 'block';
+    });
+    
+    // ------------------------------------------------------------------
+    // HÀM TÍNH ĐIỂM NIHSS 
+    // ------------------------------------------------------------------
+    document.getElementById('nihss-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        let totalScore = 0;
+        let allAnswered = true;
+        
+        // Danh sách các trường NIHSS cần tính điểm
+        const fields = ['1a', '1b', '1c', '2', '3', '4', '5a', '5b', '6a', '6b', '7', '8', '9', '10', '11'];
+        
+        fields.forEach(field => {
+            const value = document.querySelector(`select[name="nihss_${field}"]`).value;
+            if (value === "") {
+                allAnswered = false;
+            } else if (value !== 'U') { // Bỏ qua 'U' - Không khảo sát
+                totalScore += parseInt(value);
+            }
+        });
+
+        const resultBox = document.getElementById('nihss-result');
+
+        if (!allAnswered) {
+            alert("Vui lòng chọn đầy đủ kết quả cho tất cả các mục NIHSS.");
+            resultBox.style.display = 'none';
+            return;
+        }
+
+        let interpretation;
+        let className = 'result';
+        
+        // Phân loại mức độ đột quỵ theo tổng điểm NIHSS (tối đa 42)
+        if (totalScore === 0) {
+            interpretation = `Tổng điểm NIHSS: ${totalScore}/42. <strong>Không có dấu hiệu thiếu sót thần kinh.</strong>`;
+            className += ' positive';
+        } else if (totalScore <= 4) {
+            interpretation = `Tổng điểm NIHSS: ${totalScore}/42. <strong>Đột quỵ RẤT NHẸ.</strong>`;
+            className += ' positive';
+        } else if (totalScore <= 8) {
+            interpretation = `Tổng điểm NIHSS: ${totalScore}/42. <strong>Đột quỵ NHẸ.</strong>`;
+        } else if (totalScore <= 15) {
+            interpretation = `Tổng điểm NIHSS: ${totalScore}/42. <strong>Đột quỵ TRUNG BÌNH.</strong>`;
+            className = 'result mrs-5';
+        } else if (totalScore <= 24) {
+            interpretation = `Tổng điểm NIHSS: ${totalScore}/42. <strong>Đột quỵ NẶNG.</strong>`;
+            className += ' mrs-6';
+        } else {
+            interpretation = `Tổng điểm NIHSS: ${totalScore}/42. <strong>Đột quỵ NGHIÊM TRỌNG.</strong>`;
+            className += ' mrs-6';
+        }
+        
+        // --- THÊM GỢI Ý LÂM SÀNG ---
+        let clinicalSuggestion = `
+            <div class="clinical-suggestion">
+                <p><strong>Gợi ý lâm sàng (Tham khảo):</strong></p>
+                <ul>
+                    <li>Hướng dẫn thường cân nhắc <strong>tiêu sợi huyết (tPA)</strong> nếu NIHSS thường &ge; 5.</li>
+                    <li><strong>Lấy huyết khối cơ học (MT)</strong> thường được xem xét khi NIHSS &ge; 6 và có tắc mạch lớn (LVO).</li>
+                </ul>
+            </div>
+        `;
+        // -----------------------------
+
+        resultBox.innerHTML = interpretation + clinicalSuggestion;
+        resultBox.className = className;
+        resultBox.style.display = 'block';
+    });
+
+    // ------------------------------------------------------------------
+    // HÀM TÍNH ĐIỂM ICH
+    // ------------------------------------------------------------------
+    document.getElementById('ich-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        let allAnswered = true;
+        const fields = ['ich_gcs', 'ich_vol', 'ich_infravol', 'ich_age', 'ich_ivh'];
+        fields.forEach(field => {
+            if (!document.querySelector(`input[name="${field}"]:checked`)) {
+                allAnswered = false;
+            }
+        });
+
+        if (!allAnswered) {
+            alert("Vui lòng chọn đầy đủ 5 tiêu chí để tính điểm ICH Score.");
+            return;
+        }
+
+        // Lấy điểm
+        const gcsScore = parseInt(document.querySelector('input[name="ich_gcs"]:checked').value);
+        const volScore = parseInt(document.querySelector('input[name="ich_vol"]:checked').value);
+        const infraScore = parseInt(document.querySelector('input[name="ich_infravol"]:checked').value);
+        const ageScore = parseInt(document.querySelector('input[name="ich_age"]:checked').value);
+        const ivhScore = parseInt(document.querySelector('input[name="ich_ivh"]:checked').value);
+
+        const totalScore = gcsScore + volScore + infraScore + ageScore + ivhScore;
+        const resultBox = document.getElementById('ich-result');
+        
+        let interpretation = `Tổng điểm ICH Score: <strong>${totalScore}/6</strong>.`;
+        let mortalityRate = 'N/A';
+        let clinicalUse = '';
+        let className = 'result';
+        
+        // Phân loại và tiên lượng dựa trên điểm số (theo Hemphill, 2001)
+        switch (totalScore) {
+            case 0:
+                mortalityRate = '0%';
+                clinicalUse = '<strong>Tiên lượng TỐT</strong>, có khả năng hồi phục cao.';
+                className += ' positive';
+                break;
+            case 1:
+                mortalityRate = '13%';
+                clinicalUse = '<strong>Tiên lượng TỐT</strong>, có khả năng hồi phục.';
+                className += ' positive';
+                break;
+            case 2:
+                mortalityRate = '26%';
+                clinicalUse = '<strong>Tiên lượng TRUNG BÌNH</strong> – cần theo dõi sát, thường phải hồi sức tích cực.';
+                break;
+            case 3:
+                mortalityRate = '72%';
+                clinicalUse = '<strong>Tiên lượng TRUNG BÌNH – XẤU</strong> – cần theo dõi sát.';
+                className = 'result mrs-5';
+                break;
+            case 4:
+                mortalityRate = '97%';
+                clinicalUse = '<strong>Tiên lượng RẤT XẤU</strong>, tử vong cao, cần cân nhắc mục tiêu điều trị.';
+                className += ' mrs-6';
+                break;
+            case 5:
+            case 6:
+                mortalityRate = '100%';
+                clinicalUse = '<strong>Tiên lượng RẤT XẤU</strong>, tử vong rất cao.';
+                className += ' mrs-6';
+                break;
+        }
+
+        interpretation += `<br>Tỷ lệ tử vong 30 ngày ước tính: <strong>${mortalityRate}</strong> (theo Hemphill, 2001).<br>${clinicalUse}`;
+
+        resultBox.innerHTML = interpretation;
+        resultBox.className = className;
+        resultBox.style.display = 'block';
+    });
+
+    // ------------------------------------------------------------------
+    // HÀM TÍNH ĐIỂM SPETZLER-MARTIN
+    // ------------------------------------------------------------------
+    document.getElementById('spetzler-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const size = parseInt(document.querySelector('input[name="spetzler_size"]:checked')?.value || 0);
+        const eloquence = parseInt(document.querySelector('input[name="spetzler_eloquence"]:checked')?.value || 0);
+        const drainage = parseInt(document.querySelector('input[name="spetzler_drainage"]:checked')?.value || 0);
+
+        if (!document.querySelector('input[name="spetzler_size"]:checked') ||
+            !document.querySelector('input[name="spetzler_eloquence"]:checked') ||
+            !document.querySelector('input[name="spetzler_drainage"]:checked')) {
+            alert("Vui lòng chọn đầy đủ 3 tiêu chí Spetzler-Martin.");
+            return;
+        }
+
+        const totalScore = size + eloquence + drainage;
+        const resultBox = document.getElementById('spetzler-result');
+        let interpretation;
+        let className = 'result';
+
+        // Phân loại theo thang điểm và nguy cơ phẫu thuật
+        if (totalScore === 1) {
+            interpretation = `Tổng điểm Spetzler-Martin: <strong>${totalScore} (Độ I)</strong>. Nguy cơ phẫu thuật: <strong>Thấp nhất</strong>.`;
+            className += ' positive';
+        } else if (totalScore === 2) {
+            interpretation = `Tổng điểm Spetzler-Martin: <strong>${totalScore} (Độ II)</strong>. Nguy cơ phẫu thuật: <strong>Thuận lợi (Thấp)</strong>.`;
+            className += ' positive';
+        } else if (totalScore === 3) {
+            interpretation = `Tổng điểm Spetzler-Martin: <strong>${totalScore} (Độ III)</strong>. Nguy cơ phẫu thuật: <strong>Thấp</strong>.`;
+        } else if (totalScore === 4) {
+            interpretation = `Tổng điểm Spetzler-Martin: <strong>${totalScore} (Độ IV)</strong>. Nguy cơ phẫu thuật: <strong>Trung bình</strong>.`;
+            className = 'result mrs-5';
+        } else if (totalScore === 5) {
+            interpretation = `Tổng điểm Spetzler-Martin: <strong>${totalScore} (Độ V)</strong>. Nguy cơ phẫu thuật: <strong>Cao</strong>.`;
+            className += ' mrs-6';
+        } else if (totalScore === 6) { // Thêm 1 điểm vào tổng 5 điểm khi có yếu tố khác (ví dụ: AVM lan tỏa), nhưng tối đa 5 điểm trong hệ thống cổ điển
+             interpretation = `Tổng điểm Spetzler-Martin: <strong>${totalScore} (Độ VI)</strong>. Nguy cơ phẫu thuật: <strong>Rất cao, thường tránh mổ mở (AVM không thể phẫu thuật)</strong>.`;
+            className += ' mrs-6';
+        } else {
+             interpretation = `Tổng điểm Spetzler-Martin: <strong>${totalScore}</strong>. Điểm không hợp lệ.`;
+        }
+
+        resultBox.innerHTML = interpretation;
+        resultBox.className = className;
+        resultBox.style.display = 'block';
+    });
+
+    // ------------------------------------------------------------------
+    // HÀM TÍNH ĐIỂM DN4
+    // ------------------------------------------------------------------
+    document.getElementById('dn4-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        let totalScore = 0;
+        let allAnswered = true;
+
+        for (let i = 1; i <= 10; i++) {
+            const questionName = 'dn4_q' + i;
+            const selectedValue = document.querySelector('input[name="' + questionName + '"]:checked');
+            
+            if (selectedValue) {
+                totalScore += parseInt(selectedValue.value);
+            } else {
+                allAnswered = false;
+                break;
+            }
+        }
+
+        const resultBox = document.getElementById('dn4-result');
+        if (!allAnswered) {
+            alert("Vui lòng trả lời tất cả 10 câu hỏi DN4.");
+            resultBox.style.display = 'none';
+            return;
+        }
+
+        let interpretation;
+        if (totalScore >= 4) {
+            interpretation = `Tổng điểm DN4: ${totalScore}/10. <strong>NGHI NGỜ CAO có thành phần đau thần kinh.</strong>`;
+            resultBox.className = 'result mrs-5';
+        } else {
+            interpretation = `Tổng điểm DN4: ${totalScore}/10. <strong>ÍT KHẢ NĂNG có đau thần kinh.</strong>`;
+            resultBox.className = 'result positive';
+        }
+
+        resultBox.innerHTML = interpretation;
+        resultBox.style.display = 'block';
+    });
+    
+    // ------------------------------------------------------------------
+    // HÀM TÍNH ĐIỂM mJOA (CHUẨN HÓA)
+    // ------------------------------------------------------------------
+    document.getElementById('mjoa-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        let allAnswered = true;
+        const fields = ['mjoa_arm_motor', 'mjoa_leg_motor', 'mjoa_arm_sensory', 'mjoa_trunk_sensory', 'mjoa_sphincter'];
+        let totalScore = 0;
+
+        fields.forEach(field => {
+            const selectedRadio = document.querySelector(`input[name="${field}"]:checked`);
+            if (selectedRadio) {
+                totalScore += parseInt(selectedRadio.value);
+            } else {
+                allAnswered = false;
+            }
+        });
+
+        const resultBox = document.getElementById('mjoa-result');
+
+        if (!allAnswered) {
+            alert("Vui lòng chọn đầy đủ 5 tiêu chí để tính điểm mJOA.");
+            resultBox.style.display = 'none';
+            return;
+        }
+
+        let interpretation;
+        let severity;
+        let className = 'result';
+        
+        // Phân loại mức độ nặng nhẹ
+        if (totalScore === 18) {
+            severity = '<strong>BÌNH THƯỜNG</strong>';
+            className += ' positive';
+        } else if (totalScore >= 15 && totalScore <= 17) {
+            severity = '<strong>NHẸ</strong>';
+            className += ' positive';
+        } else if (totalScore >= 12 && totalScore <= 14) {
+            severity = '<strong>TRUNG BÌNH</strong>';
+            className = 'result mrs-5';
+        } else if (totalScore >= 8 && totalScore <= 11) {
+            severity = '<strong>NẶNG</strong>';
+            className += ' mrs-6';
+        } else { // totalScore <= 7
+            severity = '<strong>RẤT NẶNG / TÀN PHẾ</strong>';
+            className += ' mrs-6';
+        }
+
+        interpretation = `Tổng điểm mJOA: <strong>${totalScore}/18</strong>. Phân loại: <strong>Bệnh tủy cổ mức độ ${severity}</strong>.`;
+        
+        let clinicalSuggestion = `
+            <div class="clinical-suggestion">
+                <p><strong>Ý nghĩa lâm sàng:</strong></p>
+                <ul>
+                    <li>Điểm càng thấp (&le; 11) cho thấy mức độ chèn ép tủy nặng, thường là chỉ định phẫu thuật giải ép sớm.</li>
+                    <li>mJOA thường được dùng để tính **Tỷ lệ cải thiện** sau mổ.</li>
+                </ul>
+            </div>
+        `;
+
+        resultBox.innerHTML = interpretation + clinicalSuggestion;
+        resultBox.className = className;
+        resultBox.style.display = 'block';
+    });
+
+
+    // ------------------------------------------------------------------
+    // HÀM TÍNH ĐIỂM SLICS
+    // ------------------------------------------------------------------
+    document.getElementById('slic-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        let allAnswered = true;
+        // Kiểm tra tất cả radio button đã được chọn chưa
+        if (!document.querySelector('input[name="slic_morphology"]:checked') ||
+            !document.querySelector('input[name="slic_ligament"]:checked') ||
+            !document.querySelector('input[name="slic_neuro"]:checked')) {
+            allAnswered = false;
+        }
+
+        if (!allAnswered) {
+            alert("Vui lòng chọn đầy đủ 3 tiêu chí để tính điểm SLICS.");
+            return;
+        }
+
+        // Lấy điểm Hình thái và DLC
+        const morphologyScore = parseInt(document.querySelector('input[name="slic_morphology"]:checked').value);
+        const ligamentScore = parseInt(document.querySelector('input[name="slic_ligament"]:checked').value);
+        
+        // Xử lý điểm Thần kinh
+        const neuroValue = document.querySelector('input[name="slic_neuro"]:checked').value;
+        let neuroScore;
+        if (['2_incomplete', '2_complete'].includes(neuroValue)) {
+            neuroScore = 2; // Tổn thương tủy không hoàn toàn hoặc hoàn toàn đều 2 điểm
+        } else if (neuroValue === '3_cauda') {
+            neuroScore = 3; // Hội chứng đuôi ngựa cổ 3 điểm
+        } else {
+            neuroScore = parseInt(neuroValue); // 0 (bình thường), 1 (rễ)
+        }
+        
+        const totalScore = morphologyScore + neuroScore + ligamentScore;
+        const resultBox = document.getElementById('slic-result');
+        
+        let interpretation;
+        let clinicalAction;
+        let className = 'result';
+        
+        // Phân loại và định hướng xử trí theo SLICS
+        if (totalScore <= 3) {
+            interpretation = `Tổng điểm SLICS: <strong>${totalScore}/9</strong>.`;
+            clinicalAction = '<strong>ỔN ĐỊNH</strong>. Khuyến cáo điều trị bảo tồn (nẹp, nghỉ ngơi) và theo dõi.';
+            className += ' positive';
+        } else if (totalScore === 4) {
+            interpretation = `Tổng điểm SLICS: <strong>${totalScore}/9</strong>.`;
+            clinicalAction = '<strong>Vùng KHÔNG RÕ RÀNG (Gray zone)</strong>. Cần cân nhắc phẫu thuật hoặc bảo tồn tùy biểu hiện lâm sàng, hình ảnh và cá thể hóa điều trị.';
+            className = 'result mrs-5';
+        } else { // totalScore >= 5
+            interpretation = `Tổng điểm SLICS: <strong>${totalScore}/9</strong>.`;
+            clinicalAction = '<strong>MẤT VỮNG hoặc CHÈN ÉP THẦN KINH ĐÁNG KỂ</strong>. Chỉ định phẫu thuật cố định và/hoặc giải ép.';
+            className += ' mrs-6';
+        }
+        
+        // --- THÊM GỢI Ý LÂM SÀNG ---
+        let clinicalSuggestion = `
+            <div class="clinical-suggestion">
+                <p><strong>Điểm nhấn lâm sàng:</strong></p>
+                <ul>
+                    <li>SLICS &le; 3: Bảo tồn.</li>
+                    <li>SLICS = 4: Cân nhắc.</li>
+                    <li>SLICS &ge; 5: Phẫu thuật.</li>
+                </ul>
+            </div>
+        `;
+        // -----------------------------
+
+        resultBox.innerHTML = interpretation + `<br>` + clinicalAction + clinicalSuggestion;
+        resultBox.className = className;
+        resultBox.style.display = 'block';
+    });
+
+
+    // ------------------------------------------------------------------
+    // HÀM TÍNH ĐIỂM TLICS
+    // ------------------------------------------------------------------
+    document.getElementById('tlics-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        let allAnswered = true;
+        // Kiểm tra tất cả radio button đã được chọn chưa
+        if (!document.querySelector('input[name="tlics_morphology"]:checked') ||
+            !document.querySelector('input[name="tlics_neuro"]:checked') ||
+            !document.querySelector('input[name="tlics_ligament"]:checked')) {
+            allAnswered = false;
+        }
+
+        if (!allAnswered) {
+            alert("Vui lòng chọn đầy đủ 3 tiêu chí để tính điểm TLICS.");
+            return;
+        }
+
+        // Lấy điểm Hình thái và PLC
+        const morphologyScore = parseInt(document.querySelector('input[name="tlics_morphology"]:checked').value);
+        const ligamentScore = parseInt(document.querySelector('input[name="tlics_ligament"]:checked').value);
+        
+        // Xử lý điểm Thần kinh
+        const neuroValue = document.querySelector('input[name="tlics_neuro"]:checked').value;
+        let neuroScore;
+        if (neuroValue === '2_complete') {
+            neuroScore = 2; // Tổn thương tủy hoàn toàn
+        } else if (neuroValue === '3_cauda') {
+            neuroScore = 3; // Hội chứng đuôi ngựa
+        } else {
+            neuroScore = parseInt(neuroValue); // 0, 2 (rễ), 3 (tủy không hoàn toàn)
+        }
+        
+        const totalScore = morphologyScore + neuroScore + ligamentScore;
+        const resultBox = document.getElementById('tlics-result');
+        
+        let interpretation;
+        let clinicalAction;
+        let className = 'result';
+        
+        if (totalScore < 4) {
+            interpretation = `Tổng điểm TLICS: <strong>${totalScore}</strong>.`;
+            clinicalAction = '<strong>Điều trị BẢO TỒN</strong> (nẹp, nghỉ ngơi, giảm đau) được khuyến cáo do tổn thương ổn định.';
+            className += ' positive';
+        } else if (totalScore === 4) {
+            interpretation = `Tổng điểm TLICS: <strong>${totalScore}</strong>.`;
+            clinicalAction = '<strong>Vùng KHÔNG RÕ RÀNG (Gray zone)</strong>. Cần xem xét mổ hoặc bảo tồn tùy biểu hiện lâm sàng, hình ảnh và cá thể hóa điều trị.';
+            className = 'result mrs-5';
+        } else { // totalScore >= 5
+            interpretation = `Tổng điểm TLICS: <strong>${totalScore}</strong>.`;
+            clinicalAction = '<strong>CHỈ ĐỊNH PHẪU THUẬT</strong>. Tổn thương mất vững hoặc chèn ép thần kinh đáng kể.';
+            className += ' mrs-6';
+        }
+        
+        // --- THÊM GỢI Ý LÂM SÀNG ---
+        let clinicalSuggestion = `
+            <div class="clinical-suggestion">
+                <p><strong>Ý nghĩa lâm sàng chính:</strong></p>
+                <ul>
+                    <li>TLICS &le; 3: Bảo tồn.</li>
+                    <li>TLICS = 4: Cân nhắc.</li>
+                    <li>TLICS &ge; 5: Phẫu thuật.</li>
+                </ul>
+            </div>
+        `;
+        // -----------------------------
+
+        resultBox.innerHTML = interpretation + `<br>` + clinicalAction + clinicalSuggestion;
+        resultBox.className = className;
+        resultBox.style.display = 'block';
+    });
+
+
+    // ------------------------------------------------------------------
+    // HÀM TÍNH ĐIỂM SINS (ĐẦY ĐỦ VÀ ĐÃ RÚT GỌN)
+    // ------------------------------------------------------------------
+    document.getElementById('sins-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const fields = ['sins_q1', 'sins_q2', 'sins_q3', 'sins_q4', 'sins_q5', 'sins_q6'];
+        let totalScore = 0;
+        let allAnswered = true;
+
+        fields.forEach(field => {
+            const value = document.querySelector(`input[name="${field}"]:checked`)?.value;
+            if (value === undefined) {
+                allAnswered = false;
+            } else {
+                totalScore += parseInt(value);
+            }
+        });
+
+        const resultBox = document.getElementById('sins-result');
+
+        if (!allAnswered) {
+            alert("Vui lòng chọn đầy đủ 6 tiêu chí SINS.");
+            resultBox.style.display = 'none';
+            return;
+        }
+
+        let interpretation;
+        let clinicalAction;
+        let className = 'result';
+
+        if (totalScore <= 6) {
+            interpretation = `Tổng điểm SINS: <strong>${totalScore}/18</strong>.`;
+            clinicalAction = '<strong>Ổn định.</strong> Khuyến cáo điều trị nội khoa/xạ trị, không cần phẫu thuật ổn định.';
+            className += ' positive'; 
+        } else if (totalScore <= 12) {
+            interpretation = `Tổng điểm SINS: <strong>${totalScore}/18</strong>.`;
+            clinicalAction = '<strong>Mất vững TIỀM TÀNG (Indeterminate).</strong> Cần hội chẩn ngoại thần kinh/chỉnh hình cột sống, cân nhắc mổ.';
+            className = 'result mrs-5';
+        } else { // totalScore >= 13
+            interpretation = `Tổng điểm SINS: <strong>${totalScore}/18</strong>.`;
+            clinicalAction = '<strong>Mất vững RÕ RỆT (Unstable).</strong> Chỉ định phẫu thuật cố định và/hoặc giải ép gần như bắt buộc.';
+            className += ' mrs-6';
+        }
+
+        let clinicalSuggestion = `
+            <div class="clinical-suggestion">
+                <p><strong>Điểm nhấn lâm sàng:</strong></p>
+                <ul>
+                    <li>SINS 0-6: Ổn định (Bảo tồn/Xạ trị).</li>
+                    <li>SINS 7-12: Tiềm tàng (Hội chẩn).</li>
+                    <li>SINS 13-18: Mất vững (Phẫu thuật).</li>
+                </ul>
+            </div>
+        `;
+        // -----------------------------
+
+        resultBox.innerHTML = interpretation + `<br>` + clinicalAction + clinicalSuggestion;
+        resultBox.className = className;
+        resultBox.style.display = 'block';
+    });
+
+</script>
+
+</body>
+</html>
