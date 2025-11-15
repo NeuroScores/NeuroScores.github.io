@@ -392,99 +392,58 @@
             <div id="dn4-result" class="result" style="display: none;"></div>
         </div>
 
-        <div id="mjoa" class="tab-content">
-            <h3>6. Thang điểm mJOA (Modified Japanese Orthopaedic Association score - Chèn ép tủy cổ)</h3>
-            <p>Đánh giá mức độ nặng nhẹ của hội chứng chèn ép tủy cổ (Tổng điểm tối đa 18).</p>
-            <form id="mjoa-form">
-                <div class="question-group">
-                    <label>1. Chức năng Vận động Tay (C6-C8) (Điểm 0-4):</label>
-                    <div class="question">
-                        <input type="radio" name="mjoa_arm_motor" value="4" required> Hoàn toàn bình thường (4 điểm)
-                        <br><input type="radio" name="mjoa_arm_motor" value="3"> Khó cầm nắm đồ nhưng vẫn dùng được (3 điểm)
-                        <br><input type="radio" name="mjoa_arm_motor" value="2"> Chỉ cầm được một số vật nhỏ (2 điểm)
-                        <br><input type="radio" name="mjoa_arm_motor" value="1"> Không cầm được, tay gần như vô dụng (1 điểm)
-                        <br><input type="radio" name="mjoa_arm_motor" value="0"> Mất hoàn toàn chức năng tay (0 điểm)
-                    </div>
-                </div>
-                <div class="question-group">
-                    <label>2. Chức năng Vận động Chân (Đi lại) (Điểm 0-4):</label>
-                    <div class="question">
-                        <input type="radio" name="mjoa_leg_motor" value="4" required> Hoàn toàn bình thường, đi lại không khó khăn (4 điểm)
-                        <br><input type="radio" name="mjoa_leg_motor" value="3"> Đi lại yếu nhưng tự đi được (3 điểm)
-                        <br><input type="radio" name="mjoa_leg_motor" value="2"> Đi lại cần hỗ trợ hoặc khó khăn rõ (2 điểm)
-                        <br><input type="radio" name="mjoa_leg_motor" value="1"> Chỉ đi được vài bước hoặc dùng gậy, nạng (1 điểm)
-                        <br><input type="radio" name="mjoa_leg_motor" value="0"> Không đi được, liệt hoàn toàn chân (0 điểm)
-                    </div>
-                </div>
-                <div class="question-group">
-                    <label>3. Cảm giác Chi Trên (Điểm 0-2):</label>
-                    <div class="question">
-                        <input type="radio" name="mjoa_arm_sensory" value="2" required> Bình thường (2 điểm)
-                        <br><input type="radio" name="mjoa_arm_sensory" value="1"> Tê bì nhẹ, cảm giác giảm (1 điểm)
-                        <br><input type="radio" name="mjoa_arm_sensory" value="0"> Mất cảm giác hoàn toàn (0 điểm)
-                    </div>
-                </div>
-                <div class="question-group">
-                    <label>4. Cảm giác Chi Dưới và Thân mình (Điểm 0-2):</label>
-                    <div class="question">
-                        <input type="radio" name="mjoa_trunk_sensory" value="2" required> Bình thường (2 điểm)
-                        <br><input type="radio" name="mjoa_trunk_sensory" value="1"> Giảm cảm giác nhẹ (1 điểm)
-                        <br><input type="radio" name="mjoa_trunk_sensory" value="0"> Mất cảm giác hoàn toàn (0 điểm)
-                    </div>
-                </div>
-                <div class="question-group">
-                    <label>5. Chức năng Bàng quang / Ruột (Điểm 0-3):</label>
-                    <div class="question">
-                        <input type="radio" name="mjoa_sphincter" value="3" required> Bình thường, kiểm soát tốt (3 điểm)
-                        <br><input type="radio" name="mjoa_sphincter" value="2"> Rối loạn nhẹ, không cần can thiệp (2 điểm)
-                        <br><input type="radio" name="mjoa_sphincter" value="1"> Rối loạn vừa phải, cần can thiệp (1 điểm)
-                        <br><input type="radio" name="mjoa_sphincter" value="0"> Mất kiểm soát hoàn toàn (0 điểm)
-                    </div>
-                </div>
-
-                <p style="font-style: italic;">(Tổng điểm mJOA tối đa 18 điểm)</p>
-                <button type="submit" class="calculate-button">Tính điểm mJOA</button>
-            </form>
-            <div id="mjoa-result" class="result" style="display: none;"></div>
+   <div id="mjoa" class="tab-content">
+    <h3>6. Thang điểm mJOA (Modified Japanese Orthopaedic Association score - Chèn ép tủy cổ)</h3>
+    <p>Đánh giá mức độ nặng nhẹ của hội chứng chèn ép tủy cổ (Tổng điểm tối đa **18 điểm**).</p>
+    <form id="mjoa-form">
+        <div class="question-group">
+            <label>1. Chức năng Vận động Tinh tế Chi Trên (Hand Dexterity) (Tối đa 5 điểm):</label>
+            <div class="question">
+                <input type="radio" name="mjoa_upper_motor" value="5" required> 5 điểm: Phối hợp vận động tay bình thường (Normal hand coordination).
+                <br><input type="radio" name="mjoa_upper_motor" value="4"> 4 điểm: Cài cúc áo chậm/vụng về nhưng không khó khăn lớn / Vụng về nhẹ (mild fine motor dysfunction).
+                <br><input type="radio" name="mjoa_upper_motor" value="3"> 3 điểm: Cài cúc áo rất chậm và vụng về (Able to button a shirt with great difficulty).
+                <br><input type="radio" name="mjoa_upper_motor" value="2"> 2 điểm: Có thể xúc ăn nhưng **không thể cài cúc áo** (Unable to button a shirt).
+                <br><input type="radio" name="mjoa_upper_motor" value="1"> 1 điểm: **Không thể tự xúc ăn** (Unable to eat with a spoon).
+                <br><input type="radio" name="mjoa_upper_motor" value="0"> 0 điểm: Mất hoàn toàn chức năng tay/không cử động được (Complete loss of function).
+            </div>
         </div>
-        
-        <div id="slic" class="tab-content">
-            <h3>7. Thang điểm SLICS (Subaxial Cervical Spine Injury Classification - Chấn thương cột sống cổ)</h3>
-            <p>Đánh giá chấn thương cột sống cổ dưới C3-C7 (Tổng điểm tối đa 9).</p>
-            <form id="slic-form">
-                <div class="question-group">
-                    <label>1. Hình thái Tổn thương Xương (Morphology):</label>
-                    <div class="question">
-                        <input type="radio" name="slic_morphology" value="1" required> Gãy lún/xẹp (Compression fracture) (1 điểm)
-                        <br><input type="radio" name="slic_morphology" value="2"> Gãy nổ (Burst fracture) (2 điểm)
-                        <br><input type="radio" name="slic_morphology" value="3"> Giãn/Giật tách (Distraction) (3 điểm)
-                        <br><input type="radio" name="slic_morphology" value="4"> Trượt/Xoay (Translation/Rotation) (4 điểm)
-                    </div>
-                </div>
-                <div class="question-group">
-                    <label>2. Tình trạng Phức hợp Dây chằng – Đĩa (DLC):</label>
-                    <div class="question">
-                        <input type="radio" name="slic_ligament" value="0" required> Nguyên vẹn (0 điểm)
-                        <br><input type="radio" name="slic_ligament" value="1"> Nghi ngờ tổn thương (1 điểm)
-                        <br><input type="radio" name="slic_ligament" value="2"> Xác định rách/đứt (2 điểm)
-                    </div>
-                </div>
-                 <div class="question-group">
-                    <label>3. Tình trạng Thần kinh (Neurologic Status):</label>
-                    <div class="question">
-                        <input type="radio" name="slic_neuro" value="0" required> Bình thường (0 điểm)
-                        <br><input type="radio" name="slic_neuro" value="1"> Tổn thương rễ thần kinh (Radiculopathy) (1 điểm)
-                        <br><input type="radio" name="slic_neuro" value="2_incomplete"> Tổn thương tủy không hoàn toàn (Incomplete SCI) (2 điểm)
-                        <br><input type="radio" name="slic_neuro" value="2_complete"> Tổn thương tủy hoàn toàn (Complete SCI) (2 điểm)
-                        <br><input type="radio" name="slic_neuro" value="3_cauda"> Hội chứng đuôi ngựa cổ (Cauda Equina Cervical) (3 điểm)
-                    </div>
-                </div>
-                <p style="font-style: italic;">(Tổng điểm SLICS tối đa 9 điểm)</p>
-                <button type="submit" class="calculate-button">Tính điểm SLICS</button>
-            </form>
-            <div id="slic-result" class="result" style="display: none;"></div>
+        <div class="question-group">
+            <label>2. Chức năng Vận động Chi Dưới (Đi lại/Dáng đi) (Tối đa 7 điểm):</label>
+            <div class="question">
+                <input type="radio" name="mjoa_lower_motor" value="7" required> 7 điểm: Đi lại bình thường, không vấn đề (Normal walking).
+                <br><input type="radio" name="mjoa_lower_motor" value="6"> 6 điểm: Rối loạn thăng bằng nhẹ khi đứng/đi (mild imbalance).
+                <br><input type="radio" name="mjoa_lower_motor" value="5"> 5 điểm: Mất cân bằng vừa-nặng, nhưng vẫn có thể lên xuống cầu thang **mà không cần tay vịn** (without handrail).
+                <br><input type="radio" name="mjoa_lower_motor" value="4"> 4 điểm: Có thể đi lại mà không cần dụng cụ, nhưng **phải bám tay vịn khi lên cầu thang** (must hold a handrail on stairs).
+                <br><input type="radio" name="mjoa_lower_motor" value="3"> 3 điểm: Có thể đi lại trên mặt phẳng **nhưng cần dụng cụ hỗ trợ** (with walking aid).
+                <br><input type="radio" name="mjoa_lower_motor" value="2"> 2 điểm: Không thể đi lại nhưng có cử động chi (some movement).
+                <br><input type="radio" name="mjoa_lower_motor" value="1"> 1 điểm: Mất hoàn toàn vận động, **còn chút cảm giác** (some sensation present).
+                <br><input type="radio" name="mjoa_lower_motor" value="0"> 0 điểm: Mất hoàn toàn vận động và cảm giác.
+            </div>
+        </div>
+        <div class="question-group">
+            <label>3. Cảm giác Chi Trên (Upper Extremity Sensory) (Tối đa 3 điểm):</label>
+            <div class="question">
+                <input type="radio" name="mjoa_upper_sensory" value="3" required> 3 điểm: Cảm giác hoàn toàn bình thường (Normal hand sensation).
+                <br><input type="radio" name="mjoa_upper_sensory" value="2"> 2 điểm: Mất cảm giác nhẹ (Mild loss of hand sensation).
+                <br><input type="radio" name="mjoa_upper_sensory" value="1"> 1 điểm: Mất cảm giác nặng hoặc đau (Severe loss of sensation OR pain).
+                <br><input type="radio" name="mjoa_upper_sensory" value="0"> 0 điểm: Mất hoàn toàn cảm giác tay (Complete loss of hand sensation).
+            </div>
+        </div>
+        <div class="question-group">
+            <label>4. Chức năng Cơ tròn (Urinary Function) (Tối đa 3 điểm):</label>
+            <div class="question">
+                <input type="radio" name="mjoa_sphincter" value="3" required> 3 điểm: Chức năng tiểu tiện hoàn toàn bình thường (Normal urinary function).
+                <br><input type="radio" name="mjoa_sphincter" value="2"> 2 điểm: Tiểu gấp hoặc tiểu không tự chủ thỉnh thoảng (Urinary urgency OR occasional incontinence).
+                <br><input type="radio" name="mjoa_sphincter" value="1"> 1 điểm: Tiểu không tự chủ thường xuyên (&gt; 1 lần/tháng).
+                <br><input type="radio" name="mjoa_sphincter" value="0"> 0 điểm: Bí tiểu (phải thông tiểu) (requiring catheterization).
+            </div>
         </div>
 
+        <p style="font-style: italic;">(Tổng điểm mJOA tối đa 18 điểm)</p>
+        <button type="submit" class="calculate-button">Tính điểm mJOA</button>
+    </form>
+    <div id="mjoa-result" class="result" style="display: none;"></div>
+</div>
         <div id="tlics" class="tab-content">
             <h3>8. Thang điểm TLICS (Thoracolumbar Injury Classification and Severity - Chấn thương cột sống ngực-thắt lưng)</h3>
             <p>Dùng để đánh giá mức độ nặng của chấn thương cột sống ngực-thắt lưng và định hướng xử trí (bảo tồn/phẫu thuật).</p>
@@ -886,72 +845,63 @@
     });
     
     // ------------------------------------------------------------------
-    // HÀM TÍNH ĐIỂM mJOA (CHUẨN HÓA)
-    // ------------------------------------------------------------------
-    document.getElementById('mjoa-form').addEventListener('submit', function(event) {
-        event.preventDefault();
+   // --- LOGIC TÍNH TOÁN mJOA MỚI (Tổng điểm tối đa 18) ---
+document.getElementById('mjoa-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    
+    try {
+        // Lấy giá trị từ các nhóm radio button
+        // 1. Chức năng Vận động Tinh tế Chi Trên (Tối đa 5)
+        const upperMotor = parseInt(document.querySelector('input[name="mjoa_upper_motor"]:checked').value); 
+        // 2. Chức năng Vận động Chi Dưới (Tối đa 7)
+        const lowerMotor = parseInt(document.querySelector('input[name="mjoa_lower_motor"]:checked').value); 
+        // 3. Cảm giác Chi Trên (Tối đa 3)
+        const upperSensory = parseInt(document.querySelector('input[name="mjoa_upper_sensory"]:checked').value); 
+        // 4. Chức năng Cơ tròn (Tối đa 3)
+        const sphincter = parseInt(document.querySelector('input[name="mjoa_sphincter"]:checked').value); 
         
-        let allAnswered = true;
-        const fields = ['mjoa_arm_motor', 'mjoa_leg_motor', 'mjoa_arm_sensory', 'mjoa_trunk_sensory', 'mjoa_sphincter'];
-        let totalScore = 0;
-
-        fields.forEach(field => {
-            const selectedRadio = document.querySelector(`input[name="${field}"]:checked`);
-            if (selectedRadio) {
-                totalScore += parseInt(selectedRadio.value);
-            } else {
-                allAnswered = false;
-            }
-        });
-
-        const resultBox = document.getElementById('mjoa-result');
-
-        if (!allAnswered) {
-            alert("Vui lòng chọn đầy đủ 5 tiêu chí để tính điểm mJOA.");
-            resultBox.style.display = 'none';
-            return;
+        // Tổng điểm: 5 + 7 + 3 + 3 = 18
+        const mJOAScore = upperMotor + lowerMotor + upperSensory + sphincter;
+        const maxScore = 18; 
+        
+        let classification = "";
+        let resultClass = "";
+        
+        // Phân loại mức độ nặng (Theo chuẩn mJOA: Nhẹ > 12, Trung bình 8-12, Nặng < 8)
+        if (mJOAScore > 12) { // 13-18
+            classification = "Nhẹ (Mild)";
+            resultClass = "positive"; // Màu xanh lá cây
+        } else if (mJOAScore >= 8) { // 8-12
+            classification = "Trung bình (Moderate)";
+            resultClass = "mrs-5"; // Màu vàng/cam
+        } else { // 0-7
+            classification = "Nặng (Severe)";
+            resultClass = "mrs-6"; // Màu đỏ
         }
-
-        let interpretation;
-        let severity;
-        let className = 'result';
         
-        // Phân loại mức độ nặng nhẹ
-        if (totalScore === 18) {
-            severity = '<strong>BÌNH THƯỜNG</strong>';
-            className += ' positive';
-        } else if (totalScore >= 15 && totalScore <= 17) {
-            severity = '<strong>NHẸ</strong>';
-            className += ' positive';
-        } else if (totalScore >= 12 && totalScore <= 14) {
-            severity = '<strong>TRUNG BÌNH</strong>';
-            className = 'result mrs-5';
-        } else if (totalScore >= 8 && totalScore <= 11) {
-            severity = '<strong>NẶNG</strong>';
-            className += ' mrs-6';
-        } else { // totalScore <= 7
-            severity = '<strong>RẤT NẶNG / TÀN PHẾ</strong>';
-            className += ' mrs-6';
-        }
-
-        interpretation = `Tổng điểm mJOA: <strong>${totalScore}/18</strong>. Phân loại: <strong>Bệnh tủy cổ mức độ ${severity}</strong>.`;
-        
-        let clinicalSuggestion = `
+        // Hiển thị kết quả
+        const resultDiv = document.getElementById('mjoa-result');
+        resultDiv.innerHTML = `
+            <p><strong>TỔNG ĐIỂM mJOA: ${mJOAScore}/${maxScore}</strong></p>
+            <p>Phân loại: **${classification}**</p>
             <div class="clinical-suggestion">
-                <p><strong>Ý nghĩa lâm sàng:</strong></p>
+                <p><strong>Hướng dẫn lâm sàng chung:</strong></p>
                 <ul>
-                    <li>Điểm càng thấp (&le; 11) cho thấy mức độ chèn ép tủy nặng, thường là chỉ định phẫu thuật giải ép sớm.</li>
-                    <li>mJOA thường được dùng để tính **Tỷ lệ cải thiện** sau mổ.</li>
+                    <li><strong>Nhẹ (> 12):</strong> Thường được cân nhắc theo dõi (bảo tồn) trừ khi có yếu liệt tiến triển.</li>
+                    <li><strong>Trung bình (8-12) & Nặng (< 8):</strong> Thường được khuyến nghị điều trị bằng phẫu thuật để ngăn ngừa suy giảm thêm và cải thiện chức năng.</li>
                 </ul>
             </div>
         `;
+        resultDiv.className = `result ${resultClass}`;
+        resultDiv.style.display = 'block';
 
-        resultBox.innerHTML = interpretation + clinicalSuggestion;
-        resultBox.className = className;
-        resultBox.style.display = 'block';
-    });
-
-
+    } catch (error) {
+        // Xử lý khi người dùng chưa chọn đủ các mục
+        document.getElementById('mjoa-result').innerHTML = "<p>Vui lòng chọn đầy đủ các mục để tính điểm mJOA.</p>";
+        document.getElementById('mjoa-result').className = `result`;
+        document.getElementById('mjoa-result').style.display = 'block';
+    }
+});
     // ------------------------------------------------------------------
     // HÀM TÍNH ĐIỂM SLICS
     // ------------------------------------------------------------------
@@ -1168,6 +1118,7 @@
 </body>
 
 </html>
+
 
 
 
