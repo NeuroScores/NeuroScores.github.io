@@ -1,0 +1,21 @@
+{
+  "name": "Neuro Scoring Tools",
+  "short_name": "NeuroScores",
+  "description": "Bộ công cụ tính điểm lâm sàng Ngoại Thần kinh: GCS, NIHSS, ICH Score.",
+  "start_url": "/indexnp.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#3498db",
+  "icons": [
+    {
+      "src": "/icon-192x192.png", 
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512x512.png", 
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
